@@ -1,27 +1,35 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MeshActor.h"
+#include "Floater.h"
 
 // Sets default values
-AMeshActor::AMeshActor()
+AFloater::AFloater()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	StaticMeshCube = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("My Cube"));
-}
-
-// Called when the game starts or when spawned
-void AMeshActor::BeginPlay()
-{
-	Super::BeginPlay();
+	FloaterMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MyFloterSM"));
+	InitionalLocation = FVector(0);
+	FloatDirection = FVector(1);
+	bCanFloat = false;
 	
 }
 
+// Called when the game starts or when spawned
+void AFloater::BeginPlay()
+{
+	Super::BeginPlay();
+	SetActorLocation(InitionalLocation);
+
+}
+
 // Called every frame
-void AMeshActor::Tick(float DeltaTime)
+void AFloater::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (bCanFloat) {
+		AddActorLocalOffset(FloatDirection);
+	}
 
 }
 
